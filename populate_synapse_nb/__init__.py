@@ -61,8 +61,10 @@ class PopulateAzureSynapseNotebook:
         for line in source_lines:
             if line.endswith('\n') and not line.endswith('\r\n'):
                 lines_to_insert.append(line[:-1] + '\r\n')
-            else:
+            elif line.endswith('\r\n')
                 lines_to_insert.append(line)
+            else:
+                lines_to_insert.append(line + '\r\n')
         return lines_to_insert
 
     def _remove_self_references(self, lines_to_insert):
