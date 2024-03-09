@@ -12,4 +12,5 @@ setup(
     author='Andre Pretorius',
     author_email='pretorius.dre+github@gmail.com',
     description='A package to populate Azure Synapse Analytics Notebooks (json format) with code from Python source files.',
-    url='https://github.com/pretoriusdre/populate-synapse-nb'
+    url='https://github.com/pretoriusdre/populate-synapse-nb',
+)
