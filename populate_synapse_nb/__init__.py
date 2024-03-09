@@ -112,4 +112,4 @@ class PopulateAzureSynapseNotebook:
 
 
 if __name__ == '__main__':
-    PopulateAzureSynapseNotebook().migrate()
+    PopulateAzureSynapseNotebook().run()
