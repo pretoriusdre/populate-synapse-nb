@@ -31,11 +31,11 @@ class PopulateAzureSynapseNotebook:
         if not self.destination_path.exists():
             raise ValueError('A valid destination path must be provided. This must be an existing Azure Synapse Analyics notebook.')
 
-    def run(self):
+    def run(self, force=False):
         """
         Copy the contents of the source file to the destination Azure Synapse Notebook.
         """
-        if not self._confirm_action():
+        if not force and not self._confirm_action():
             print('Aborted')
             return
         lines_to_insert = self._read_source()
@@ -71,7 +71,6 @@ class PopulateAzureSynapseNotebook:
         updated_lines_to_insert = []
         take_line = True
         indent_level_for_class = 0
-        print(lines_to_insert)
         for line in lines_to_insert:
             current_indent_level = len(line) - len(line.lstrip())
             if len(line.strip()) > 0 and current_indent_level <= indent_level_for_class:
@@ -81,7 +80,6 @@ class PopulateAzureSynapseNotebook:
                 take_line = False
             if take_line and 'PopulateAzureSynapseNotebook' not in line:
                 updated_lines_to_insert.append(line)
-        print(updated_lines_to_insert)
         return updated_lines_to_insert
 
     def _add_log(self, lines_to_insert):
