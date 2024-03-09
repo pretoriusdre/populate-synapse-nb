@@ -22,7 +22,7 @@ class PopulateAzureSynapseNotebook:
         self.source_path = Path(source_path)
         if not destination_path:
             # If no destination is provided, it will be an equivalent json file in the same directory.
-            destination_name = source_path.stem + '.json'
+            destination_name = self.source_path.stem + '.json'
             destination_path = self.source_path.parent / destination_name
         self.destination_path = Path(destination_path)
         if not self.source_path.exists():
