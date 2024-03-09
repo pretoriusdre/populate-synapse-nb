@@ -78,7 +78,7 @@ class PopulateAzureSynapseNotebook:
             if line.startswith('class PopulateAzureSynapseNotebook'):
                 indent_level_for_class = current_indent_level
                 take_line = False
-            if take_line and 'PopulateAzureSynapseNotebook' not in line:
+            if take_line and 'PopulateAzureSynapseNotebook' not in line and 'populate_synapse_nb' not in line:
                 updated_lines_to_insert.append(line)
         return updated_lines_to_insert
 
