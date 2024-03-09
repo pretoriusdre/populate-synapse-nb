@@ -2,12 +2,10 @@ from setuptools import setup, find_packages
 
 setup(
     name='populate-synapse-nb',
-    version='1.0',
+    version='1.01',
     packages=find_packages(),
     install_requires=[
         'pathlib',
-        'json',
-        'copy',
     ],
     author='Andre Pretorius',
     author_email='pretorius.dre+github@gmail.com',
