@@ -28,7 +28,7 @@ class PopulateAzureSynapseNotebook:
         if not self.source_path.exists():
             raise ValueError('A valid source path must be provided.')
         if not self.destination_path.exists():
-            raise ValueError('A valid destination path must be provided. This must be an existing Azure Synapse Analyics notebook.)
+            raise ValueError('A valid destination path must be provided. This must be an existing Azure Synapse Analyics notebook.')
 
     def run(self):
         """
@@ -44,10 +44,8 @@ class PopulateAzureSynapseNotebook:
         self._save_destination(notebook_json)
 
     def _confirm_action(self):
-        message = f"\n\n================================\n\n"
-        message += (
-            "The contents of the destination notebook will be updated as follows:\n\n"
-        )
+        message = "\n\n================================\n\n"
+        message += "The contents of the notebook will be updated as follows:\n\n"
         message += f"SOURCE:         {self.source_path.name}\n"
         message += f"DESTINATION:    {self.destination_path.name}\n\n."
         print(message)
