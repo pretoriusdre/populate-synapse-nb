@@ -1,7 +1,8 @@
 # Any lines containging 'PopulateAzureSynapseNotebook' will not be copied to the notebook.
-from pathlib import Path  # used within PopulateAzureSynapseNotebook
-import json  # used within PopulateAzureSynapseNotebook
-import copy  # used within PopulateAzureSynapseNotebook
+import copy                                 # used within PopulateAzureSynapseNotebook
+from datetime import datetime, timezone     # used within PopulateAzureSynapseNotebook
+import json                                 # used within PopulateAzureSynapseNotebook
+from pathlib import Path                    # used within PopulateAzureSynapseNotebook
 
 
 class PopulateAzureSynapseNotebook:
@@ -39,6 +40,7 @@ class PopulateAzureSynapseNotebook:
             return
         lines_to_insert = self._read_source()
         lines_to_insert = self._remove_self_references(lines_to_insert)
+        lines_to_insert = self._add_log(lines_to_insert)
         notebook_json = self._read_destination()
         notebook_json = self._insert_source_to_json(notebook_json, lines_to_insert)
         self._save_destination(notebook_json)
@@ -80,10 +82,18 @@ class PopulateAzureSynapseNotebook:
         print(updated_lines_to_insert)
         return updated_lines_to_insert
 
+    def _add_log(self, lines_to_insert):
+        log_message =  [
+            f"# Cell source code was retreived from {self.source_path}\r\n",
+            f"# Update was conducted at {datetime.now(timezone.utc)}\r\n",
+            f"# Update script: https://github.com/pretoriusdre/populate-synapse-nb\r\n#\r\n"
+        ]
+        return [log_message].extend(lines_to_insert)
     def _read_destination(self):
         with open(self.destination_path, 'r') as file:
             notebook_json = json.load(file)
         return notebook_json
+
 
     def _insert_source_to_json(self, notebook_json, lines_to_insert):
         notebook_json = copy.deepcopy(notebook_json)
