@@ -88,8 +88,8 @@ class PopulateAzureSynapseNotebook:
             f"# Update was conducted at {datetime.now(timezone.utc)}\r\n",
             f"# Update script: https://github.com/pretoriusdre/populate-synapse-nb\r\n#\r\n"
         ]
-        return log_message.extend(lines_to_insert)
-
+        log_message.extend(lines_to_insert)
+        return log_message
 
 
     def _read_destination(self):
