@@ -54,18 +54,20 @@ class PopulateAzureSynapseNotebook:
 
     def _read_source(self):
         with open(self.source_path, 'r') as file:
-            lines_to_insert = file.readlines()
-        lines_to_insert = [
-            line[:-1] + '\r\n'
-            for line in lines_to_insert
-            if line.endswith('\n') and not line.endswith('\r\n')
-        ]
+            source_lines = file.readlines()
+        lines_to_insert = []
+        for line in source_lines:
+            if line.endswith('\n') and not line.endswith('\r\n'):
+                lines_to_insert.append(line[:-1] + '\r\n')
+            else:
+                lines_to_insert.append(line)
         return lines_to_insert
 
     def _remove_self_references(self, lines_to_insert):
         updated_lines_to_insert = []
         take_line = True
         indent_level_for_class = 0
+        print(lines_to_insert)
         for line in lines_to_insert:
             current_indent_level = len(line) - len(line.lstrip())
             if len(line.strip()) > 0 and current_indent_level <= indent_level_for_class:
@@ -75,6 +77,7 @@ class PopulateAzureSynapseNotebook:
                 take_line = False
             if take_line and 'PopulateAzureSynapseNotebook' not in line:
                 updated_lines_to_insert.append(line)
+        print(updated_lines_to_insert)
         return updated_lines_to_insert
 
     def _read_destination(self):
