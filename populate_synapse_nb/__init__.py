@@ -40,6 +40,7 @@ class PopulateAzureSynapseNotebook:
             return
         lines_to_insert = self._read_source()
         lines_to_insert = self._remove_self_references(lines_to_insert)
+        lines_to_insert = self._remove_edge_blanks(lines_to_insert)
         lines_to_insert = self._add_log(lines_to_insert)
         notebook_json = self._read_destination()
         notebook_json = self._insert_source_to_json(notebook_json, lines_to_insert)
@@ -82,11 +83,22 @@ class PopulateAzureSynapseNotebook:
                 updated_lines_to_insert.append(line)
         return updated_lines_to_insert
 
+    def _remove_edge_blanks(self, lines_to_insert):
+        start_index = 0
+        end_index = len(lines_to_insert) - 1
+        while start_index <= end_index and not lines_to_insert[start_index].strip():
+            start_index += 1
+        while end_index >= start_index and not lines_to_insert[end_index].strip():
+            end_index -= 1
+        return lines_to_insert[start_index:end_index + 1]
+
+
     def _add_log(self, lines_to_insert):
         log_message =  [
             f"# Cell source code was retreived from {self.source_path}\r\n",
             f"# Update was conducted at {datetime.now(timezone.utc)}\r\n",
-            f"# Update script: https://github.com/pretoriusdre/populate-synapse-nb\r\n#\r\n"
+            f"# Update script: https://github.com/pretoriusdre/populate-synapse-nb\r\n",
+            "#\r\n"
         ]
         log_message.extend(lines_to_insert)
         return log_message
@@ -126,4 +138,4 @@ class PopulateAzureSynapseNotebook:
 
 
 if __name__ == '__main__':
-    PopulateAzureSynapseNotebook().run()
+    PopulateAzureSynapseNotebook(source_path=None, destination_path=None).run()

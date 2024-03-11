@@ -1,5 +1,8 @@
 notes.txt
 
+test_notebook.json
+test_notebook.py
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

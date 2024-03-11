@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='populate-synapse-nb',
-    version='1.47',
+    version='1.48',
     packages=find_packages(),
     install_requires=[
         'pathlib',
